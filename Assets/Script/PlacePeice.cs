@@ -5,33 +5,72 @@ using UnityEngine.Tilemaps;
 
 public class PlacePeice : MonoBehaviour
 {
-    public Tile highlightTile;
+    public Tile BlackPiece;
+    public Tile WhitePiece;
     public Tilemap highlightMap;
 
     private Vector3Int previous;
 
+    int turnNumber = 0;
+
     // do late so that the player has a chance to move in update if necessary
     private void LateUpdate()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            // get current grid location
-            Vector3Int currentCell = highlightMap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            // add one in a direction (you'll have to change this to match your directional control)
-            currentCell.x += 1;
-
-            // if the position has changed
-            if (currentCell != previous)
+            turnNumber++;
+            
+            if(turnNumber%2 == 0 )
             {
-                // set the new tile
-                highlightMap.SetTile(currentCell, highlightTile);
-
-                // erase previous
-                highlightMap.SetTile(previous, null);
-
-                // save the new position for next frame
-                previous = currentCell;
+                PlaceBlack(); 
             }
+            else
+            {
+                PlaceWhite();
+            }
+            
+        }
+    }
+
+    public void PlaceBlack()
+    {
+        // get current grid location
+        Vector3Int currentCell = highlightMap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        // add one in a direction (you'll have to change this to match your directional control)
+        currentCell.x += 1;
+
+        // if the position has changed
+        if (currentCell != previous)
+        {
+            // set the new tile
+            highlightMap.SetTile(currentCell, BlackPiece);
+
+            // erase previous
+            //highlightMap.SetTile(previous, null);
+
+            // save the new position for next frame
+            previous = currentCell;
+        }
+    }
+
+    public void PlaceWhite()
+    {
+        // get current grid location
+        Vector3Int currentCell = highlightMap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        // add one in a direction (you'll have to change this to match your directional control)
+        currentCell.x += 1;
+
+        // if the position has changed
+        if (currentCell != previous)
+        {
+            // set the new tile
+            highlightMap.SetTile(currentCell, WhitePiece);
+
+            // erase previous
+            //highlightMap.SetTile(previous, null);
+
+            // save the new position for next frame
+            previous = currentCell;
         }
     }
 }
